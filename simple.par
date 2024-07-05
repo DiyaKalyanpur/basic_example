@@ -1,0 +1,43 @@
+# Ionic model setup
+num_imp_regions = 1 
+imp_region[0].im = Courtemanche  # Use Courtemanche ionic model
+imp_region[0].num_IDs = 1
+imp_region[0].ID[0] = 1          # Apply ionic model settings to the mesh region with tag 1
+
+# Stimulus setup
+num_stim = 1 
+stim[0].name = "S1"
+stim[0].crct.type = 0             # Stimulate using transmembrane current 
+stim[0].pulse.strength = 250.0    # Strength of stimulus (uA/cm^2)
+stim[0].ptcl.start = 0.0          # Start time of stimulus (ms)
+stim[0].ptcl.duration = 2.0       # Duration of stimulus (ms)
+stim[0].num_IDs = 1               # Apply stimulus to specific region
+stim[0].ID[0] = 1                 # Region tag to apply stimulus to
+
+# Simulation setup
+bidomain = 0         # Run monodomain simulation
+spacedt = 1.0        # Output every 1 ms
+timedt = 1.0         # Update progress on command line every 1 ms
+parab_solve = 1      # Use Crank-Nicolson to solve the parabolic problem
+
+# Conductivity settings for monodomain simulation
+num_gregions = 1
+gregion[0].name = "myocardium"
+gregion[0].num_IDs = 1
+gregion[0].ID = "1"                 # Apply settings to the mesh region with tag 1
+gregion[0].g_el = 0.625             # Extracellular conductivity in longitudinal direction (S/m)
+gregion[0].g_et = 0.236             # Extracellular conductivity in transverse direction (S/m)
+gregion[0].g_en = 0.236             # Extracellular conductivity in sheet direction (S/m)
+gregion[0].g_il = 0.174             # Intracellular conductivity in longitudinal direction (S/m)
+gregion[0].g_it = 0.019             # Intracellular conductivity in transverse direction (S/m)
+gregion[0].g_in = 0.019             # Intracellular conductivity in sheet direction (S/m)
+gregion[0].g_mult = 0.5             # Scale factor for conductivities to adjust conduction velocity
+
+# Local activation times computation
+num_LATs = 1
+lats[0].ID = "activation"
+lats[0].all = 0                   # Only detect the first activation
+lats[0].measurand = 0             # Determine LAT from transmembrane voltage
+lats[0].mode = 0                  # Take maximum slope to determine LAT
+lats[0].threshold = -10           # Threshold for LAT detection (mV)
+
